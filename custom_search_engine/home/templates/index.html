@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<title>Meta Search Engine</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<br><br>
+<div class="row">
+	<div class="container">
+		<h1 style="text-align: center; font-family: 'Product Sans';"><b>Meta Search Engine</b></h1><br><br>
+		<form method="POST" action="/">
+		{% csrf_token %}
+		<input id="inp" name="query" class="form-control form-control-lg" type="text" placeholder="Search Here ..."></form><br><br>
+		{% if context %}
+			{% for title,link,displayLink,snippet in context %}
+			<div class="card">
+			  <div class="card-body">
+				<a href="{{ link }}"><h2 style="color: blue;">{{ title | safe }}</h2></a>
+				<a style="color: green;" href="https://{{ displayLink }}">{{ displayLink | safe }}</a>
+				<p style="color: gray;">{{ snippet | safe }}</p>
+			  </div>
+			</div>
+			{% endfor %}
+		{% endif %}
+	</div>
+</div>
+<script type="text/javascript">
+	function inputValue(){
+		document.getElementById('inp').value = "{{ query_str }}";
+	}
+
+	{% if context %}
+		window.onload = inputValue();
+	{% endif %}
+</script>
+</body>
+</html>
